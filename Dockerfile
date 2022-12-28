@@ -1,5 +1,5 @@
 FROM openjdk:11
-VOLUME /tmp
+#VOLUME /tmp
 EXPOSE 8081
-COPY "./target/product.jar" "product.jar"
+COPY "./target/product-0.0.1-SNAPSHOT.jar" "product.jar"
 ENTRYPOINT ["java","-jar","product.jar"]
