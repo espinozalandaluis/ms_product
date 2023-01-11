@@ -18,14 +18,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/v1/product")
 public class ProductController {
-/*
-    @Value("${spring.application.name}")
-    String name;
-
-    @Value("${server.port}")
-    String port;
-*/
-
 
     @Autowired
     private ProductService productService;
