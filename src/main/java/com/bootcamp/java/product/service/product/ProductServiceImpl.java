@@ -10,6 +10,7 @@ import com.bootcamp.java.product.repository.ProductTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -19,6 +20,7 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@ConditionalOnProperty(name = "cache.enabled", havingValue = "false")
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -89,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
                                         productSubTypeRepository.findByIdProductSubType(productDTO.getIdProductSubType())
                                                 .flatMap(subtype ->
                                                         productRepository.save(productConverter.DTOtoEntity(productDTO,prd.getId()))
-                                                        .map(a-> productConverter.EntityToDTOResponse(prd, typeprod, subtype))
+                                                        .map(a-> productConverter.EntityToDTOResponse(prd, typeprod, subtype)) //ACTUALIZAR LINEAS
                                                 )
                                                 .switchIfEmpty(Mono.error(() -> new FunctionalException(String.format("El IdProductSubType %s no existe",productDTO.getIdProductSubType())))))
                                 .switchIfEmpty(Mono.error(() -> new FunctionalException(String.format("El IdProductType %s no existe",productDTO.getIdProductType())))))
